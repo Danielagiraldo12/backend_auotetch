@@ -13,9 +13,9 @@ export const getProducts = async (req, res) => {
 };
 
 export const createNewProduct = async (req, res) => {
-  const { descripcion, marca, codigo, cantidad, precio_compra, precio_venta } = req.body;
+  const { descripcion, marca, codigo, cantidad, precio_compra, precio_venta, imagen } = req.body;
 
-  if (descripcion == null || marca == null || codigo == null || cantidad == null || precio_compra == null || precio_venta == null) {
+  if (descripcion == null || marca == null || codigo == null || cantidad == null || precio_compra == null || precio_venta == null || imagen == null) {
     return res.status(400).json({ msg: "Bad Request. Please fill all fields" });
   }
 
@@ -30,8 +30,9 @@ export const createNewProduct = async (req, res) => {
       .input("cantidad", sql.Int, cantidad)
       .input("precio_compra", sql.Decimal, precio_compra)
       .input("precio_venta", sql.Decimal, precio_venta)
+      .input("imagen", sql.VarChar, imagen)
       .query(
-        "INSERT INTO autotech.dbo.producto (descripcion, marca, codigo, cantidad, precio_compra, precio_venta) VALUES (@descripcion, @marca, @codigo, @cantidad, @precio_compra, @precio_venta); SELECT SCOPE_IDENTITY() as id"
+        "INSERT INTO autotech.dbo.producto (descripcion, marca, codigo, cantidad, precio_compra, precio_venta, imagen) VALUES (@descripcion, @marca, @codigo, @cantidad, @precio_compra, @precio_venta, @imagen); SELECT SCOPE_IDENTITY() as id"
       );
 
     res.json({
@@ -41,6 +42,7 @@ export const createNewProduct = async (req, res) => {
       cantidad,
       precio_compra,
       precio_venta,
+      imagen,
       id: result.recordset[0].id,
     });
   } catch (error) {
@@ -88,9 +90,9 @@ export const deleteProductById = async (req, res) => {
 };
 
 export const updateProductById = async (req, res) => {
-  const { descripcion, marca, codigo, cantidad, precio_compra, precio_venta } = req.body;
+  const { descripcion, marca, codigo, cantidad, precio_compra, precio_venta, imagen } = req.body;
 
-  if (descripcion == null || marca == null || codigo == null || cantidad == null || precio_compra == null || precio_venta == null) {
+  if (descripcion == null || marca == null || codigo == null || cantidad == null || precio_compra == null || precio_venta == null || imagen == null) {
     return res.status(400).json({ msg: "Bad Request. Please fill all fields" });
   }
 
@@ -106,8 +108,9 @@ export const updateProductById = async (req, res) => {
       .input("cantidad", sql.Int, cantidad)
       .input("precio_compra", sql.Decimal, precio_compra)
       .input("precio_venta", sql.Decimal, precio_venta)
+      .input("imagen", sql.VarChar, imagen)
       .query(
-        "UPDATE autotech.dbo.producto SET descripcion = @descripcion, marca = @marca, codigo = @codigo, cantidad = @cantidad, precio_compra = @precio_compra, precio_venta = @precio_venta WHERE id_producto = @id"
+        "UPDATE autotech.dbo.producto SET descripcion = @descripcion, marca = @marca, codigo = @codigo, cantidad = @cantidad, precio_compra = @precio_compra, precio_venta = @precio_venta, imagen = @imagen WHERE id_producto = @id"
       );
 
     if (result.rowsAffected[0] === 0) {
@@ -121,6 +124,7 @@ export const updateProductById = async (req, res) => {
       cantidad,
       precio_compra,
       precio_venta,
+      imagen,
       id: req.params.id,
     });
   } catch (error) {
