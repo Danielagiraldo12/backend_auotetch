@@ -12,6 +12,6 @@ const router = Router();
 //router para que sea consumida desde otros lados por eje el
 
 router.get("/reportes/getProductosSinStock", getProductosSinStock);
-router.get("/reportes/getHistorialVehiculoxPlacaxFechas", getHistorialVehiculoxPlacaxFechas);
+router.post("/reportes/getHistorialVehiculoxPlacaxFechas", getHistorialVehiculoxPlacaxFechas);
 
 export default router;
